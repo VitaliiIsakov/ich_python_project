@@ -55,11 +55,17 @@ def search_movies_by_keyword(
         (list of movie rows, list of column names, total matching count)
     """
     with conn.cursor() as cursor:
-        cursor.execute(queries.query_movies_by_keyword, (f"%{keyword}%", limit, offset))
+        cursor.execute(
+            queries.query_movies_by_keyword,
+            (f"%{keyword}%", limit, offset)
+        )
         rows = cursor.fetchall()
         headers = [desc[0] for desc in cursor.description] if rows else []
 
-        cursor.execute(queries.query_count_movies_by_keyword, (f"%{keyword}%",))
+        cursor.execute(
+            queries.query_count_movies_by_keyword,
+            (f"%{keyword}%",)
+        )
         total_count = cursor.fetchone()[0]
 
         return rows, headers, total_count
@@ -88,11 +94,17 @@ def search_movies_by_genre_or_year(
         (list of movie rows, list of column names, total count)
     """
     with conn.cursor() as cursor:
-        cursor.execute(queries.query_movies_by_genre_or_year, (genre, year_from, year_to, limit, offset))
+        cursor.execute(
+            queries.query_movies_by_genre_or_year,
+            (genre, year_from, year_to, limit, offset)
+        )
         rows = cursor.fetchall()
         headers = [desc[0] for desc in cursor.description] if rows else []
 
-        cursor.execute(queries.query_count_movies_by_genre_or_year, (genre, year_from, year_to))
+        cursor.execute(
+            queries.query_count_movies_by_genre_or_year,
+            (genre, year_from, year_to)
+        )
         total_count = cursor.fetchone()[0]
 
         return rows, headers, total_count
@@ -119,11 +131,17 @@ def search_movies_by_genre_and_year_exact(
         (list of movie rows, list of column names, total count)
     """
     with conn.cursor() as cursor:
-        cursor.execute(queries.query_movies_by_genre_and_year_exact, (genre, year, limit, offset))
+        cursor.execute(
+            queries.query_movies_by_genre_and_year_exact,
+            (genre, year, limit, offset)
+        )
         rows = cursor.fetchall()
         headers = [desc[0] for desc in cursor.description] if rows else []
 
-        cursor.execute(queries.query_count_movies_by_genre_and_year_exact, (genre, year))
+        cursor.execute(
+            queries.query_count_movies_by_genre_and_year_exact,
+            (genre, year)
+        )
         total_count = cursor.fetchone()[0]
 
         return rows, headers, total_count
@@ -160,5 +178,4 @@ def get_year_range(conn: pymysql.connections.Connection) -> Tuple[int, int]:
         result = cursor.fetchone()
         if result:
             return result[0], result[1]
-        else:
-            return 0, 0
+        return 0, 0

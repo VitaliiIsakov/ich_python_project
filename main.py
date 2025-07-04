@@ -4,7 +4,17 @@ import log_writer
 import log_stats
 import formatter
 
+
 def show_search_results(search_fn, conn, *args, log_info=None):
+    """
+    Display search results with pagination and optional logging.
+
+    Args:
+        search_fn: Search function to call.
+        conn: Database connection.
+        *args: Arguments for the search function.
+        log_info: Optional logging info (search_type, params).
+    """
     offset = 0
     limit = 10
     first = True
@@ -32,7 +42,15 @@ def show_search_results(search_fn, conn, *args, log_info=None):
         if not ui.ask_next_page():
             return
 
+
 def perform_action(action, conn):
+    """
+    Handle user action based on menu selection.
+
+    Args:
+        action: User's menu choice.
+        conn: Database connection.
+    """
     if action == 1:
         keyword = ui.movie_name()
         show_search_results(
@@ -69,7 +87,11 @@ def perform_action(action, conn):
     else:
         ui.show_invalid_choice()
 
+
 def menu(conn):
+    """
+    Show the main menu loop.
+    """
     while True:
         action = ui.main_menu()
         if action == 0:
@@ -77,15 +99,21 @@ def menu(conn):
             break
         perform_action(action, conn)
 
+
 def main():
+    """
+    Entry point of the program.
+    """
     conn = mysqldb.connection()
     if not conn:
         ui.show_connection_error()
         return
+
     try:
         menu(conn)
     finally:
         conn.close()
+
 
 if __name__ == "__main__":
     main()

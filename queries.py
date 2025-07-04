@@ -56,7 +56,10 @@ query_count_movies_by_genre_and_year_exact = """
 """
 
 # Get all genres
-query_genres = "SELECT name FROM category"
+query_genres = """
+    SELECT name
+    FROM category
+"""
 
 # Get min and max release years
 query_years = """
